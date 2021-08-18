@@ -1,5 +1,6 @@
 import datetime
 import time
+
 import requests
 
 # 参数列表
@@ -36,8 +37,9 @@ while i < 3:
     val = SignIn(0, 0)
     print(val)
     if val == "{\"code\":0}":
+        time = datetime.datetime.utcnow() + datetime.timedelta(hours=8.0)
         requests.get("https://sctapi.ftqq.com/SCT64859T79zOCMblEp1OhxlhneFlDWZv.send?title=" \
-                     + "签到通知&desp=" + str(datetime.date.today() + datetime.timedelta(hours=8.0)) + "签到成功！")
+                     + "签到通知&desp=" + str(time.strftime("%Y-%m-%d %H:%M:%S")) + "签到成功！")
         break
     else:
         requests.get("https://sctapi.ftqq.com/SCT64859T79zOCMblEp1OhxlhneFlDWZv.send?title=" \
