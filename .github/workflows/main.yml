@@ -38,4 +38,4 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           echo python3 ./sign_in.py
-          ll ./
+          ls ./
