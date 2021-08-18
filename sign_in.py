@@ -37,7 +37,7 @@ while i < 3:
     print(val)
     if val == "{\"code\":0}":
         requests.get("https://sctapi.ftqq.com/SCT64859T79zOCMblEp1OhxlhneFlDWZv.send?title=" \
-                     + "签到通知&desp=" + str(datetime.date.today()) + "签到成功！")
+                     + "签到通知&desp=" + str(datetime.date.today() + datetime.timedelta(hours=8.0)) + "签到成功！")
         break
     else:
         requests.get("https://sctapi.ftqq.com/SCT64859T79zOCMblEp1OhxlhneFlDWZv.send?title=" \
