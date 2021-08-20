@@ -1,5 +1,6 @@
 import datetime
 import time
+
 import requests
 
 # 参数列表
@@ -26,7 +27,7 @@ def SignIn(user_flag, area_flag):
                   + "&province=" + province[area_flag] + "&township=" + township[area_flag] + "&street=" \
                   + street[area_flag] + "&areacode=" + areaCode[area_flag]
     user_resp = requests.get(login_url)
-    # user_resp.cookies.set("JWSESSION", value=user_resp.cookies.get('JWSESSION'), domain="student.wozaixiaoyuan.com")
+    user_resp.cookies.set("JWSESSION", value=user_resp.cookies.get('JWSESSION'), domain="student.wozaixiaoyuan.com")
     sign_in_resp = requests.get(sign_in_url, cookies=user_resp.cookies)
     return sign_in_resp.text
 
@@ -36,8 +37,8 @@ if __name__ == "__main__":
     while i < 3:
         time_now = datetime.datetime.utcnow() + datetime.timedelta(hours=8.0)  # 获取时间
         if time_now.hour >= 18:
-            # 时间未到，等待200s
-            time.sleep(200)
+            # 时间未到，等待至下一小时的第一分钟，(^ v ^)
+            time.sleep((61 - time_now.minute) * 60)
             continue
         val = SignIn(0, 0)  # 请求
         print(val)
@@ -47,7 +48,7 @@ if __name__ == "__main__":
             break
         else:
             requests.get("https://sctapi.ftqq.com/SCT64859T79zOCMblEp1OhxlhneFlDWZv.send?title=" \
-                         + "错误通知&desp=出现错误" + str(time_now.strftime("%Y-%m-%d %H:%M:%S")) + "错误代码" + \
+                         + "错误通知&desp=" + str(time_now.strftime("%Y-%m-%d %H:%M:%S")) + "出现错误，错误代码" + \
                          str(val) + "，尝试中，第" + str(i + 1) + "次尝试！")  # 提示
             time.sleep(60)  # 停止60s后重试
             i += 1
