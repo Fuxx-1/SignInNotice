@@ -1,4 +1,5 @@
 import datetime
+import random
 import time
 
 import requests
@@ -6,7 +7,8 @@ import requests
 # 参数列表
 username = ["18292162941"]  # 用户名
 password = ["123456"]  # 密码
-answers = ["['0','1','36.5']"]  # 选项及体温
+user = ["FuXuXiang"]
+answers = ["['0','1','" + str(36 + random.randint(3, 7) / 10.0) + "']"]  # 选项及体温
 longitude = ["108.90281"]  # 经度
 latitude = ["34.15293"]  # 纬度
 country = ["中国"]  # 国家
@@ -16,6 +18,52 @@ district = ["长安区"]  # 区
 township = ["韦曲街道"]  # 街道
 street = ["西长安街"]  # 地址
 areaCode = ["610116"]  # 行政区划代码
+
+
+def action():
+    for i in range(0, len(username)):
+        res = SignIn(i, 0)  # 请求
+        ReInf(res, i)
+
+
+def ReInf(res, user_flag):
+    if res["user_resp"].json()['code'] == 0 & res["sign_in_resp"].json()['code'] == 0:
+        requests.post(url=getUrl(), json=ReData("签到通知\n" + getTimeStr() + "签到成功！", user_flag))
+    elif res["user_resp"].json()['code'] == 0:
+        requests.post(url=getUrl(), json=ReData("错误通知\n" + getTimeStr() + "出现错误，错误原因{" + \
+                                                "无" + ", " + \
+                                                res["sign_in_resp"].json()['message'] + "}，尝试中断", user_flag))
+    else:
+        requests.post(url=getUrl(), json=ReData("错误通知\n" + getTimeStr() + "出现错误，错误原因{" + \
+                                                res["user_resp"].json()['message'] + ", " + \
+                                                res["sign_in_resp"].json()['message'] + "}，尝试中断", user_flag))
+
+
+def ReData(string, user_flag):
+    return {
+        "touser": user[user_flag],
+        "msgtype": "text",
+        "agentid": 1000003,
+        "text": {
+            "content": str(string)
+        }
+    }
+
+
+def getTimeStr():
+    time_now = datetime.datetime.utcnow() + datetime.timedelta(hours=8.0)  # 获取时间
+    return str(time_now.strftime("%Y-%m-%d %H:%M:%S"))
+
+
+def sleep():
+    while True:
+        time_now = datetime.datetime.utcnow() + datetime.timedelta(hours=8.0)  # 获取时间
+        if time_now.hour >= 18:
+            # 时间未到，等待至下一小时的第一分钟，(^ v ^)
+            time.sleep((61 - time_now.minute) * 60)
+            continue
+        else:
+            break
 
 
 def SignIn(user_flag, area_flag):
@@ -29,26 +77,19 @@ def SignIn(user_flag, area_flag):
     user_resp = requests.get(login_url)
     user_resp.cookies.set("JWSESSION", value=user_resp.cookies.get('JWSESSION'), domain="student.wozaixiaoyuan.com")
     sign_in_resp = requests.get(sign_in_url, cookies=user_resp.cookies)
-    return sign_in_resp.text
+    return {"user_resp": user_resp, "sign_in_resp": sign_in_resp}
+
+
+def getUrl():
+    return "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + requests.get(
+        "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wwdc80681c42c94333&corpsecret=nAweSLLiaHBNEqBL5B_zxzYTAg_mOCklhH4p9sT4FKI").json()[
+        'access_token']
+
+
+def main():
+    sleep()
+    action()
 
 
 if __name__ == "__main__":
-    i = 0
-    while i < 3:
-        time_now = datetime.datetime.utcnow() + datetime.timedelta(hours=8.0)  # 获取时间
-        if time_now.hour >= 18:
-            # 时间未到，等待至下一小时的第一分钟，(^ v ^)
-            time.sleep((61 - time_now.minute) * 60)
-            continue
-        val = SignIn(0, 0)  # 请求
-        print(val)
-        if val == "{\"code\":0}":
-            requests.get("https://sctapi.ftqq.com/SCT64859T79zOCMblEp1OhxlhneFlDWZv.send?title=" \
-                         + "签到通知&desp=" + str(time_now.strftime("%Y-%m-%d %H:%M:%S")) + "签到成功！")  # 提示
-            break
-        else:
-            requests.get("https://sctapi.ftqq.com/SCT64859T79zOCMblEp1OhxlhneFlDWZv.send?title=" \
-                         + "错误通知&desp=" + str(time_now.strftime("%Y-%m-%d %H:%M:%S")) + "出现错误，错误代码" + \
-                         str(val) + "，尝试中，第" + str(i + 1) + "次尝试！")  # 提示
-            time.sleep(60)  # 停止60s后重试
-            i += 1
+    main()
