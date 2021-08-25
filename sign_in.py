@@ -24,7 +24,7 @@ areaCode = ["610116"]  # 行政区划代码
 
 
 def action():
-    print("此次打卡人数：" + len(username))
+    print("此次打卡人数：" + str(len(username)))
     for i in range(0, len(username)):
         res = SignIn(i, 0)  # 请求
         ReInf(res, i)
