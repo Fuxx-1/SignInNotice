@@ -1,13 +1,16 @@
 import datetime
+import os
 import random
 import time
 
 import requests
 
 # 参数列表
-username = ["18292162941"]  # 用户名
-password = ["123456"]  # 密码
-user = ["FuXuXiang"]
+username = os.environ['UserName'].split(', ')  # [""]   用户名
+password = os.environ['Password'].split(', ')  # [""]   密码
+user = os.environ['User'].split(', ')  # 企业微信用户名列表
+corpId = os.environ['CorpId']  # 企业微信企业代码
+corpSecret = os.environ['CorpSecret']  # 企业微信应用secret
 answers = ["['0','1','" + str(36 + random.randint(3, 7) / 10.0) + "']"]  # 选项及体温
 longitude = ["108.90281"]  # 经度
 latitude = ["34.15293"]  # 纬度
@@ -21,9 +24,11 @@ areaCode = ["610116"]  # 行政区划代码
 
 
 def action():
+    print("此次打卡人数：" + len(username))
     for i in range(0, len(username)):
         res = SignIn(i, 0)  # 请求
         ReInf(res, i)
+    print(getTimeStr() + "打卡完毕")
 
 
 def ReInf(res, user_flag):
@@ -82,7 +87,7 @@ def SignIn(user_flag, area_flag):
 
 def getUrl():
     return "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + requests.get(
-        "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wwdc80681c42c94333&corpsecret=nAweSLLiaHBNEqBL5B_zxzYTAg_mOCklhH4p9sT4FKI").json()[
+        "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=" + corpId + "&corpsecret=" + corpSecret).json()[
         'access_token']
 
 
