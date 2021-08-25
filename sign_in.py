@@ -28,7 +28,7 @@ def action():
     for i in range(0, len(username)):
         res = SignIn(i, 0)  # 请求
         ReInf(res, i)
-    print(getTimeStr() + "打卡完毕")
+    print(getTimeStr() + " 打卡完毕")
 
 
 def ReInf(res, user_flag):
