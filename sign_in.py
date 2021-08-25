@@ -33,13 +33,13 @@ def action():
 
 def ReInf(res, user_flag):
     if res["user_resp"].json()['code'] == 0 & res["sign_in_resp"].json()['code'] == 0:
-        requests.post(url=getUrl(), json=ReData("签到通知\n" + getTimeStr() + "签到成功！", user_flag))
+        requests.post(url=getUrl(), json=ReData("签到通知\n" + getTimeStr() + " 签到成功！", user_flag))
     elif res["user_resp"].json()['code'] == 0:
-        requests.post(url=getUrl(), json=ReData("错误通知\n" + getTimeStr() + "出现错误，错误原因{" + \
+        requests.post(url=getUrl(), json=ReData("错误通知\n" + getTimeStr() + " 出现错误，错误原因{" + \
                                                 "无" + ", " + \
                                                 res["sign_in_resp"].json()['message'] + "}，尝试中断", user_flag))
     else:
-        requests.post(url=getUrl(), json=ReData("错误通知\n" + getTimeStr() + "出现错误，错误原因{" + \
+        requests.post(url=getUrl(), json=ReData("错误通知\n" + getTimeStr() + " 出现错误，错误原因{" + \
                                                 res["user_resp"].json()['message'] + ", " + \
                                                 res["sign_in_resp"].json()['message'] + "}，尝试中断", user_flag))
 
