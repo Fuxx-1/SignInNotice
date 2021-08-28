@@ -27,7 +27,6 @@ def action():
     print("此次打卡人数：" + str(len(username)))
     for i in range(0, len(username)):
         res = SignIn(i, 0)  # 请求
-        print(res["sign_in_resp"].json()['message'])
         ReInf(res, i)
     print(getTimeStr() + " 打卡完毕")
 
