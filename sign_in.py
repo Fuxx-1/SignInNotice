@@ -80,6 +80,8 @@ def SignIn(user_flag, area_flag):
                   + "&province=" + province[area_flag] + "&township=" + township[area_flag] + "&street=" \
                   + street[area_flag] + "&areacode=" + areaCode[area_flag]
     user_resp = requests.get(login_url)
+    print(login_url)
+    print(sign_in_url)
     user_resp.cookies.set("JWSESSION", value=user_resp.cookies.get('JWSESSION'), domain="student.wozaixiaoyuan.com")
     sign_in_resp = requests.get(sign_in_url, cookies=user_resp.cookies)
     return {"user_resp": user_resp, "sign_in_resp": sign_in_resp}
