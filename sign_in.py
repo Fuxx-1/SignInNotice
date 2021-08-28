@@ -92,7 +92,7 @@ def getUrl():
 
 
 def main():
-    sleep()
+    # sleep()
     action()
 
 
