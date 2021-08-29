@@ -54,5 +54,5 @@ jobs:
           python3 ./Action_LingHongXiao.py
           echo "====XuYingJie===="
           python3 ./Action_XuYingJie.py
-          echo "====FuXuXiang===="
+          echo "====ZhaoZeYu===="
           python3 ./Action_ZhaoZeYu.py
