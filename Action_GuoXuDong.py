@@ -1,14 +1,13 @@
 import datetime
 import os
 import random
-import time
 
 import requests
 
 # 参数列表
-username = os.environ['UserName'].split(', ')  # [""]   用户名
-password = os.environ['Password'].split(', ')  # [""]   密码
-user = os.environ['User'].split(', ')  # 企业微信用户名列表
+username = ["17829076455"]  # [""]   用户名
+password = ["04202087"]  # [""]   密码
+user = ["GuoXuDong"]  # 企业微信用户名列表
 corpId = os.environ['CorpId']  # 企业微信企业代码
 corpSecret = os.environ['CorpSecret']  # 企业微信应用secret
 answers = ["['0','1','" + str(36 + random.randint(3, 7) / 10.0) + "']"]  # 选项及体温
@@ -21,14 +20,6 @@ district = ["长安区"]  # 区
 township = ["韦曲街道"]  # 街道
 street = ["西长安街"]  # 地址
 areaCode = ["610116"]  # 行政区划代码
-
-
-def action():
-    print("此次打卡人数：" + str(len(username)))
-    for i in range(0, len(username)):
-        res = SignIn(i, 0)  # 请求
-        ReInf(res, i)
-    print(getTimeStr() + " 打卡完毕")
 
 
 def ReInf(res, user_flag):
@@ -60,17 +51,6 @@ def getTimeStr():
     return str(time_now.strftime("%Y-%m-%d %H:%M:%S"))
 
 
-def sleep():
-    while True:
-        time_now = datetime.datetime.utcnow() + datetime.timedelta(hours=8.0)  # 获取时间
-        if time_now.hour >= 18:
-            # 时间未到，等待至下一小时的第一分钟，(^ v ^)
-            time.sleep((61 - time_now.minute) * 60)
-            continue
-        else:
-            break
-
-
 def SignIn(user_flag, area_flag):
     login_url = "https://gw.wozaixiaoyuan.com/basicinfo/mobile/login/username?username=" \
                 + username[user_flag] + "&password=" + password[user_flag]
@@ -80,7 +60,6 @@ def SignIn(user_flag, area_flag):
                   + "&province=" + province[area_flag] + "&township=" + township[area_flag] + "&street=" \
                   + street[area_flag] + "&areacode=" + areaCode[area_flag]
     user_resp = requests.get(login_url)
-    print(login_url)
     user_resp.cookies.set("JWSESSION", value=user_resp.cookies.get('JWSESSION'), domain="student.wozaixiaoyuan.com")
     sign_in_resp = requests.get(sign_in_url, cookies=user_resp.cookies)
     return {"user_resp": user_resp, "sign_in_resp": sign_in_resp}
@@ -93,8 +72,9 @@ def getUrl():
 
 
 def main():
-    sleep()
-    action()
+    res = SignIn(0, 0)  # 请求
+    ReInf(res, 0)
+    print(getTimeStr() + " 打卡完毕")
 
 
 if __name__ == "__main__":
