@@ -20,7 +20,6 @@ district = ["长安区"]  # 区
 township = ["韦曲街道"]  # 街道
 street = ["西长安街"]  # 地址
 areaCode = ["610116"]  # 行政区划代码
-https://gw.wozaixiaoyuan.com/basicinfo/mobile/my/changePassword?newPassword=q2w3e4&oldPassword=q2w3e4
 
 
 def ReInf(res, user_flag):
