@@ -59,11 +59,13 @@ def SignIn(user_flag, area_flag):
                   + "&country=" + country[area_flag] + "&city=" + city[area_flag] + "&district=" + district[area_flag] \
                   + "&province=" + province[area_flag] + "&township=" + township[area_flag] + "&street=" \
                   + street[area_flag] + "&areacode=" + areaCode[area_flag]
+    change_url = "https://gw.wozaixiaoyuan.com/basicinfo/mobile/my/changePassword?newPassword=" + \
+                 password[user_flag] + "&oldPassword=" + password[user_flag]
     user_resp = requests.get(login_url)
+    change_resp = requests.get(url=change_url, cookies=user_resp.cookies)
     user_resp.cookies.set("JWSESSION", value=user_resp.cookies.get('JWSESSION'), domain="student.wozaixiaoyuan.com")
     sign_in_resp = requests.get(sign_in_url, cookies=user_resp.cookies)
-    return {"user_resp": user_resp, "sign_in_resp": sign_in_resp}
-
+    return {"user_resp": user_resp, "sign_in_resp": sign_in_resp, "change_resp": change_resp}
 
 def getUrl():
     return "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + requests.get(

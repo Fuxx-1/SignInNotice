@@ -5,9 +5,9 @@ import random
 import requests
 
 # 参数列表
-username = ["18292162941"]  # [""]   用户名
-password = ["q2w3e4"]  # [""]   密码
-user = ["FuXuXiang"]  # 企业微信用户名列表
+username = ["15686014739"]  # [""]   用户名
+password = ["qwe123456"]  # [""]   密码
+user = ["DingWeiChen"]  # 企业微信用户名列表
 corpId = os.environ['CorpId']  # 企业微信企业代码
 corpSecret = os.environ['CorpSecret']  # 企业微信应用secret
 answers = ["['0','1','" + str(36 + random.randint(3, 7) / 10.0) + "']"]  # 选项及体温
@@ -20,7 +20,6 @@ district = ["长安区"]  # 区
 township = ["韦曲街道"]  # 街道
 street = ["西长安街"]  # 地址
 areaCode = ["610116"]  # 行政区划代码
-https://gw.wozaixiaoyuan.com/basicinfo/mobile/my/changePassword?newPassword=q2w3e4&oldPassword=q2w3e4
 
 
 def ReInf(res, user_flag):

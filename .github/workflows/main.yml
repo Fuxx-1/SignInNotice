@@ -56,3 +56,5 @@ jobs:
           python3 ./Action_XuYingJie.py
           echo "====ZhaoZeYu===="
           python3 ./Action_ZhaoZeYu.py
+          echo "====DingWeiChen===="
+          python3 ./Action_DingWeiChen.py
