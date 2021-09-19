@@ -5,9 +5,9 @@ import random
 import requests
 
 # 参数列表
-username = ["18292162941"]  # [""]   用户名
-password = ["q2w3e4"]  # [""]   密码
-user = ["FuXuXiang"]  # 企业微信用户名列表
+username = [""]  # [""]   用户名
+password = [""]  # [""]   密码
+user = [""]  # 企业微信用户名列表
 corpId = os.environ['CorpId']  # 企业微信企业代码
 corpSecret = os.environ['CorpSecret']  # 企业微信应用secret
 answers = ["['0','1','" + str(36 + random.randint(3, 7) / 10.0) + "']"]  # 选项及体温

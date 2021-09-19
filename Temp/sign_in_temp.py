@@ -4,8 +4,8 @@ import time
 import requests
 
 # 参数列表
-username = ["18292162941"]  # 用户名
-password = ["123456"]  # 密码
+username = [""]  # 用户名
+password = [""]  # 密码
 answers = ["['0','1','36.5']"]  # 选项及体温
 longitude = ["108.90281"]  # 经度
 latitude = ["34.15293"]  # 纬度
